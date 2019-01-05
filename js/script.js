@@ -26,8 +26,8 @@ $(document).ready(function () {
                 console.log(response);
                 $("#gifs").empty();
                 $.each(response.data, function () {
-                    console.log("url = " + this.embed_url);
-                    $("#gifs").append('<img src="' + this.embed_url + '">');
+                    console.log("url = " + this.images.downsized.url);
+                    $("#gifs").append('<img src="' + this.images.downsized.url + '">');
                 });
             });
         }
