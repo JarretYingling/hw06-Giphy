@@ -4,8 +4,8 @@ $(document).ready(function () {
 
     let Giphy = {
         queryURL: "",
-        arrTopics: ["alcohol", "beer", "wine", "champagne", "whiskey", "bourbon", "rye", "scotch", "gin", "brandy", "cognac", "vodka", "moonshine"],
-        arrCounter: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        arrTopics: ["alcohol", "beer", "wine", "champagne", "whiskey", "bourbon", "rye", "scotch", "gin", "brandy", "cognac", "vodka", "moonshine", "tequila"],
+        arrCounter: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         keep: false,
         arrQuery: ["https://api.giphy.com/v1/gifs/", "search?", "api_key=jspItT1f9xNw9QHrsUg5lrn5w5JVkIms", "&q=", "", "&limit=", 10, "&offset=", 0],
         /* query string legend
@@ -76,7 +76,6 @@ $(document).ready(function () {
     });
 
     $(document).on("click", ".gif", function (event) {
-
         if ($(this).attr("id") == "0") {
             let still = $(this).attr("src");
             let gif = $(this).attr("data-alt");
@@ -92,7 +91,6 @@ $(document).ready(function () {
             $(this).attr("src", still);
             $(this).attr("id", "0");
         };
-
     });
 
 });
