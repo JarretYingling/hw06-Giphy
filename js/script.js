@@ -11,7 +11,17 @@ $(document).ready(function () {
         8 = offset
         */
         queryURL: "",
-        arrTerms: ["alcohol", "beer", "wine", "champagne", "whiskey", "bourbon", "rye", "scotch", "gin", "brandy", "cognac", "vodka", "schnapps"],
+        arrTopics: ["alcohol", "beer", "wine", "champagne", "whiskey", "bourbon", "rye", "scotch", "gin", "brandy", "cognac", "vodka", "moonshine"],
+        keep: false,
+        displayButtons: function () {
+            $("#buttons").empty();
+            $.each(Giphy.arrTopics, function (index, value) {
+                console.log(index, value);
+                $("#buttons").append(`
+                    <button id="${value}" class="btn bg-success mt-2 mx-2">${value}</button>
+                `);
+            });
+        },
         makeURL: function (q) {
             this.arrQuery[4] = q;
             this.queryURL = this.arrQuery.join("");
@@ -24,24 +34,59 @@ $(document).ready(function () {
                 method: "GET"
             }).then(function (response) {
                 console.log(response);
-                $("#gifs").empty();
+                this.keep = $("#keep").prop("checked");
+                console.log(this.keep);
+                if (!this.keep) {
+                    $("#gifs").empty();
+                }
                 $.each(response.data, function () {
-                    console.log("url = " + this.images.downsized.url);
-                    $("#gifs").append('<img src="' + this.images.downsized.url + '">');
+                    $("#gifs").prepend(`
+                        <p class="float-left">
+                            <img id="0" class="gif" src="${this.images.fixed_height_small_still.url}" data-alt="${this.images.fixed_height_small.url}">
+                            <br>rating(${this.rating})
+                        </p>
+                    `);
                 });
             });
         }
     };
 
-    $.each(Giphy.arrTerms, function (index, value) {
-        console.log(index, value);
-        $("#buttons").append("<button id='" + value + "' class='btn bg-success mt-2 mx-2'>" + value + "</button>");
-    });
+    Giphy.displayButtons();
 
-    $(".btn").on("click", function () {
+    $(document).on("click", ".btn", function (event) {
         let id = $(this).attr("id");
         console.log(id);
         Giphy.queryGiphy(id);
+    });
+
+    $("#submit").on("click", function (event) {
+        event.preventDefault();
+        let newTopic = $("#topic").val();
+        console.log(newTopic);
+        Giphy.arrTopics.push(newTopic);
+        console.log(Giphy.arrTopics);
+        Giphy.displayButtons();
+        $("#topic").val("");
+    });
+
+    $(document).on("click", ".gif", function (event) {
+        
+        if ($(this).attr("id") == "0") {
+            let still = $(this).attr("src");
+            let gif = $(this).attr("data-alt");
+            console.log(gif);
+            $(this).attr("data-alt", still);
+            $(this).attr("src", gif);
+            $(this).attr("id", "1");
+        } else if ($(this).attr("id") == "1") {
+            let still = $(this).attr("data-alt");
+            let gif = $(this).attr("src");
+            console.log(still);
+            $(this).attr("data-alt", gif);
+            $(this).attr("src", still);
+            $(this).attr("id", "0");
+        };
+        
     });
 
 });
