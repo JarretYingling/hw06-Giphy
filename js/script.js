@@ -44,7 +44,7 @@ $(document).ready(function () {
                     $("#gifs").prepend(`
                         <p class="float-left">
                             <img id="0" class="gif" src="${this.images.fixed_height_small_still.url}" data-alt="${this.images.fixed_height_small.url}">
-                            <br>rating(${this.rating})
+                            <br>rating: ${this.rating}
                         </p>
                     `);
                 });
